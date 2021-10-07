@@ -65,9 +65,17 @@
 }
 
 .cookieConsent__Right {
-  display: flex;
-  align-items: flex-end;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 40px 0 0 60px; 
 }
+
+.cookieConsent__Center {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  text-align:center; 
+}
+
 
 .cookieConsentOperations {
   position: fixed;
@@ -170,9 +178,14 @@
 }
 
 .cookieConsent__Button--Close {
-  background: black;
+  background: lightgray;
+  color: black;
+  padding: 15px 60px;
+}
+
+.cookieConsent__Button--Primary {
+  background: #78b63d;
   color: white;
-  margin: 40px 0 0 60px;
   padding: 15px 60px;
 }
 
@@ -187,6 +200,8 @@
 
   .cookieConsent__Right {
     margin-top: 20px;
+    width: 100%;
+    margin-left: 0px;
   }
 
   .cookieConsent__Button {

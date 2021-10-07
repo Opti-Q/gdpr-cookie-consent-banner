@@ -66,9 +66,10 @@
     return result
   }, {})
 
-  export let acceptLabel = 'Accept cookies'
-  export let settingsLabel = 'Cookie settings'
-  export let closeLabel = 'Close settings'
+  export let acceptLabel = 'Accept all'
+  export let settingsLabel = 'Change settings'
+  export let closeLabel = 'Save'
+  export let selectAllLabel = 'Select all'
 
   export function show () {
     shown = true
@@ -121,6 +122,25 @@
     shown = false
   }
 
+  function acceptAll(){
+
+    // if(typeof(choicesMerged["analytics"])!=="boolean"){
+    //         choicesMerged["analytics"].value= true;
+    //       }
+    //       if(typeof(choicesMerged["tracking"])!=="boolean"){
+    //         choicesMerged["tracking"].value= true;
+    //       }
+    //       if(typeof(choicesMerged["marketing"])!=="boolean"){
+    //         choicesMerged["marketing"].value= true;
+    //       }
+    // for(let choice of choicesArr){
+    //   if(Object.hasOwnProperty.call(choicesMerged, choice.id) && choicesMerged[choice.id]){
+    //     choicesMerged[choice.id].value = true;
+    //   }
+    // }
+    choose();
+  }
+
   function choose () {
     setCookie(cookieChoices)
     execute(cookieChoices)
@@ -167,7 +187,23 @@
         on:click={() => { settingsShown = true } }>
         {settingsLabel}
       </button>
-      <button type="submit" class="cookieConsent__Button" on:click={choose}>
+      <button type="submit" class="cookieConsent__Button cookieConsent__Button--Primary" on:click={()=>{
+          // for(let choice of choicesArr){
+          //   if(Object.hasOwnProperty.call(choicesMerged, choice.id) && choicesMerged[choice.id]){
+          //     choicesMerged[choice.id].value = true;
+          //   }
+          // }
+          if(typeof(choicesMerged["analytics"])!=="boolean"){
+            choicesMerged["analytics"].value= true;
+          }
+          if(typeof(choicesMerged["tracking"])!=="boolean"){
+            choicesMerged["tracking"].value= true;
+          }
+          if(typeof(choicesMerged["marketing"])!=="boolean"){
+            choicesMerged["marketing"].value= true;
+          }
+          choose(); 
+      }}>
         {acceptLabel}
       </button>
     </div>
@@ -195,12 +231,44 @@
         </div>
       {/if}
     {/each}
-    <button
-      type="submit"
-      class="cookieConsent__Button cookieConsent__Button--Close"
-      on:click={() => { settingsShown = false } }>
-      {closeLabel}
-    </button>
+    <div class="cookieConsent__Center">
+      <button
+        type="submit"
+        class="cookieConsent__Button cookieConsent__Button--Close"
+        on:click={() =>
+          { 
+            settingsShown = false;
+            choose(); 
+          }
+        }>
+        {closeLabel}
+      </button>
+      {#if !!selectAllLabel}
+      <button
+        type="submit"
+        class="cookieConsent__Button cookieConsent__Button--Primary"
+        on:click={() => {
+          // for(let choice of choicesArr){
+          //   if(Object.hasOwnProperty.call(choicesMerged, choice.id) && choicesMerged[choice.id]){
+          //     choicesMerged[choice.id].value = true;
+          //   }
+          // }
+          if(typeof(choicesMerged["analytics"])!=="boolean"){
+            choicesMerged["analytics"].value= true;
+          }
+          if(typeof(choicesMerged["tracking"])!=="boolean"){
+            choicesMerged["tracking"].value= true;
+          }
+          if(typeof(choicesMerged["marketing"])!=="boolean"){
+            choicesMerged["marketing"].value= true;
+          }
+          choose(); 
+          settingsShown = false 
+          } }>
+        {selectAllLabel}
+      </button>
+      {/if}
+    </div>
   </div>
 </div>
 {/if}
