@@ -36,18 +36,18 @@
     tracking: {
       label: 'Tracking cookies',
       description: 'Used for advertising purposes.',
-      value: true
+      value: false
     },
     analytics: {
       label: 'Analytics cookies',
       description:
         'Used to control Google Analytics, a 3rd party tool offered by Google to track user behavior.',
-      value: true
+      value: false
     },
     marketing: {
       label: 'Marketing cookies',
       description: 'Used for marketing data.',
-      value: true
+      value: false
     }
   }
 
@@ -123,27 +123,28 @@
   }
 
   function acceptAll(){
+    for(let choice of choicesArr){
+      if(Object.hasOwnProperty.call(choicesMerged, choice.id) && choicesMerged[choice.id]){
+        choicesMerged[choice.id].value = true;
+      }
+    }
+    var choicesA = Object.values(choicesMerged).map((item, index) => {
+      return Object.assign(
+        {},
+        item,
+        { id: Object.keys(choicesMerged)[index] }
+      )});
+    var choices = choicesA.reduce((result, item, index, array) => {
+      result[item.id] = item.value ? item.value : false
+      return result
+    }, {});
 
-    // if(typeof(choicesMerged["analytics"])!=="boolean"){
-    //         choicesMerged["analytics"].value= true;
-    //       }
-    //       if(typeof(choicesMerged["tracking"])!=="boolean"){
-    //         choicesMerged["tracking"].value= true;
-    //       }
-    //       if(typeof(choicesMerged["marketing"])!=="boolean"){
-    //         choicesMerged["marketing"].value= true;
-    //       }
-    // for(let choice of choicesArr){
-    //   if(Object.hasOwnProperty.call(choicesMerged, choice.id) && choicesMerged[choice.id]){
-    //     choicesMerged[choice.id].value = true;
-    //   }
-    // }
-    choose();
+    choose(choices);
   }
 
-  function choose () {
-    setCookie(cookieChoices)
-    execute(cookieChoices)
+  function choose (choices) {
+    setCookie(choices ?? cookieChoices)
+    execute(choices ?? cookieChoices)
   }
 </script>
 
@@ -187,23 +188,7 @@
         on:click={() => { settingsShown = true } }>
         {settingsLabel}
       </button>
-      <button type="submit" class="cookieConsent__Button cookieConsent__Button--Primary" on:click={()=>{
-          // for(let choice of choicesArr){
-          //   if(Object.hasOwnProperty.call(choicesMerged, choice.id) && choicesMerged[choice.id]){
-          //     choicesMerged[choice.id].value = true;
-          //   }
-          // }
-          if(typeof(choicesMerged["analytics"])!=="boolean"){
-            choicesMerged["analytics"].value= true;
-          }
-          if(typeof(choicesMerged["tracking"])!=="boolean"){
-            choicesMerged["tracking"].value= true;
-          }
-          if(typeof(choicesMerged["marketing"])!=="boolean"){
-            choicesMerged["marketing"].value= true;
-          }
-          choose(); 
-      }}>
+      <button type="submit" class="cookieConsent__Button cookieConsent__Button--Primary" on:click={acceptAll}>
         {acceptLabel}
       </button>
     </div>
@@ -243,31 +228,15 @@
         }>
         {closeLabel}
       </button>
-      {#if !!selectAllLabel}
       <button
         type="submit"
         class="cookieConsent__Button cookieConsent__Button--Primary"
         on:click={() => {
-          // for(let choice of choicesArr){
-          //   if(Object.hasOwnProperty.call(choicesMerged, choice.id) && choicesMerged[choice.id]){
-          //     choicesMerged[choice.id].value = true;
-          //   }
-          // }
-          if(typeof(choicesMerged["analytics"])!=="boolean"){
-            choicesMerged["analytics"].value= true;
-          }
-          if(typeof(choicesMerged["tracking"])!=="boolean"){
-            choicesMerged["tracking"].value= true;
-          }
-          if(typeof(choicesMerged["marketing"])!=="boolean"){
-            choicesMerged["marketing"].value= true;
-          }
-          choose(); 
+          acceptAll();
           settingsShown = false 
           } }>
         {selectAllLabel}
       </button>
-      {/if}
     </div>
   </div>
 </div>
