@@ -55,9 +55,11 @@
   text-decoration: none; }
 
 .cookieConsent__Right {
-  display: inline-grid;
-  grid-template-columns: 1fr 1fr;
-  margin: 40px 0 0 60px; }
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr; /* ensure rows are only as high as content */
+    margin: 40px 0 0 60px;
+}
 
 .cookieConsent__Center {
   display: inline-grid;
@@ -155,13 +157,13 @@
 .cookieConsent__Button--Close {
   background: lightgray;
   color: black;
-  padding: 15px 60px;
+  /*padding: 15px 60px;*/
 }
 
 .cookieConsent__Button--Primary {
   background: #78b63d;
   color: white;
-  padding: 15px 60px;
+  /*padding: 15px 60px;*/
 }
 
 .cookieConsent__Button:hover {
